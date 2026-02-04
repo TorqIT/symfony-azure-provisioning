@@ -60,9 +60,6 @@
     "containerAppsEnvironmentUseWorkloadProfiles": {
       "value": true
     },
-    "provisionInit": {
-      "value": true
-    },
     "initContainerAppJobName": {
       "value": "symfony-azure-init-test"
     },
@@ -173,4 +170,3 @@
     }
   }
 }
-
