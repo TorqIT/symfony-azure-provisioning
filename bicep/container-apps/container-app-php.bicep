@@ -160,7 +160,7 @@ resource phpContainerApp 'Microsoft.App/containerApps@2024-10-02-preview' = {
         // Apps Environment, which is not what we want.
         external: true
         allowInsecure: false
-        targetPort: 80
+        targetPort: 8080
         traffic: [
           {
             latestRevision: true
