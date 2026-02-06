@@ -1,7 +1,18 @@
 param additionalVolumesAndMounts array
 
 // Volumes
-var defaultVolumes = []
+var defaultVolumes = [
+  {
+    storageType: 'AzureFile'
+    name: 'uploads'
+    storageName: 'uploads'
+  }
+  {
+    storageType: 'AzureFile'
+    name: 'logs'
+    storageName: 'logs'
+  }
+]
 var secretsVolume = [{
   storageType: 'Secret'
   name: 'secrets'
@@ -9,13 +20,22 @@ var secretsVolume = [{
 var additionalVolumes = [for volumeAndMount in additionalVolumesAndMounts: {
   name: volumeAndMount.volumeName
   storageName: volumeAndMount.volumeName
-  storageType: volumeAndMount.?storageType ?? 'NfsAzureFile'
-  mountOptions: volumeAndMount.?mountOptions ?? 'uid=1000,gid=1000'
+  storageType: volumeAndMount.?storageType ?? 'AzureFile'
+  mountOptions: volumeAndMount.?mountOptions ?? null
 }]
 output volumes array = concat(defaultVolumes, secretsVolume, additionalVolumes)
 
 // Volume mounts
-var defaultVolumeMounts = []
+var defaultVolumeMounts = [
+  {
+    volumeName: 'uploads'
+    mountPath: '/var/www/html/uploads'
+  }
+  {
+    volumeName: 'logs'
+    mountPath: '/var/www/html/var/log'
+  }
+]
 var secretsVolumeMount = [{
   volumeName: 'secrets'
   mountPath: '/run/secrets'

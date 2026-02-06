@@ -7,7 +7,7 @@ param sku string
 param kind string
 param accessTier string
 param containerName string
-param fileShares array
+param additionalFileShares array
 
 param firewallIps array
 
@@ -34,6 +34,16 @@ resource virtualNetworkContainerAppsSubnet 'Microsoft.Network/virtualNetworks/su
   parent: virtualNetwork
   name: virtualNetworkContainerAppsSubnetName
 }
+
+var defaultFileShares = [
+  {
+    name: 'uploads'
+  }
+  {
+    name: 'logs'
+  }
+]
+var fileShares = concat(defaultFileShares, additionalFileShares)
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageAccountName

@@ -41,12 +41,8 @@
     "storageAccountName": {
       "value": "symfonyazuresatest"
     },
-    "storageAccountFileShares": {
-      "value": [
-        {
-          "name": "uploads"
-        }
-      ]
+    "storageAccountAdditionalFileShares": {
+      "value": []
     },
     "storageAccountLongTermBackups": {
       "value": false
@@ -121,38 +117,6 @@
     },
     "additionalSecrets": {
       "value": []
-    },
-    "fileStorageAccountName": {
-      "value": "symfonyazurefilestest"
-    },
-    "fileStorageAccountFileShares": {
-      "value": [
-        {
-          "name": "assets",
-          "maxSizeGB": 120
-        }
-      ]
-    },
-    "additionalVolumesAndMounts": {
-      "value": [
-        {
-          "storageAccountName": "symfonyazurefilestest",
-          "fileShareName": "assets",
-          "mountName": "assets",
-          "mountAccessMode": "ReadWrite",
-          "volumeName": "assets",
-          "mountPath": "/var/www/html/public/var/assets"
-        },
-        {
-          "storageAccountName": "symfonyazuresatest",
-          "fileShareName": "uploads",
-          "mountName": "uploads",
-          "mountAccessMode": "ReadWrite",
-          "volumeName": "uploads",
-          "mountPath": "/var/www/html/uploads",
-          "storageType": "AzureFile"
-        }
-      ]
     },
     "provisionMetricAlerts": {
       "value": true

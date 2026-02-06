@@ -104,7 +104,7 @@ param storageAccountSku string = 'Standard_LRS'
 param storageAccountKind string = 'StorageV2'
 param storageAccountAccessTier string = 'Hot'
 param storageAccountContainerName string = 'symfony'
-param storageAccountFileShares array = []
+param storageAccountAdditionalFileShares array = []
 param storageAccountFirewallIps array = []
 param storageAccountBackupRetentionDays int = 7
 param storageAccountPrivateEndpointName string = '${storageAccountName}-private-endpoint'
@@ -134,7 +134,7 @@ module storageAccount 'storage-account/storage-account.bicep' = {
     longTermBackups: storageAccountLongTermBackups
     backupVaultName: backupVaultName
     longTermBackupRetentionPeriod: storageAccountLongTermBackupRetentionPeriod
-    fileShares: storageAccountFileShares
+    additionalFileShares: storageAccountAdditionalFileShares
   }
 }
 
