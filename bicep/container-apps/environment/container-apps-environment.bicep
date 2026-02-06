@@ -12,6 +12,8 @@ param logAnalyticsCustomerId string
 @secure()
 param logAnalyticsSharedKey string
 
+param storageAccountName string
+
 param additionalVolumesAndMounts array
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-09-01' existing = {
@@ -23,6 +25,10 @@ resource subnet 'Microsoft.Network/virtualNetworks/subnets@2022-09-01' existing 
   name: virtualNetworkSubnetName
 }
 var subnetId = subnet.id
+
+resource storageAccount 'Microsoft.Storage/storageAccounts@2025-06-01' existing = {
+  name: storageAccountName
+}
 
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2024-03-01' = {
   name: name
@@ -62,14 +68,11 @@ module privateDns 'container-apps-environment-private-dns-zone.bicep' = if (!php
   }
 }
 
-module storageMount './container-apps-environment-mount.bicep' = [for volumeAndMount in additionalVolumesAndMounts : {
-  name: 'storageMount-${volumeAndMount.mountName}'
+module environmentStorages './container-apps-environment-storages.bicep' = {
   params: {
     containerAppsEnvironmentName: containerAppsEnvironment.name
-    mountName: volumeAndMount.mountName
-    mountAccessMode: volumeAndMount.mountAccessMode
-    storageAccountName: volumeAndMount.storageAccountName
-    storageType: volumeAndMount.?storageType ?? 'NfsAzureFile'
-    fileShareName: volumeAndMount.fileShareName
+    storageAccountName: storageAccountName
+    storageAccountKey: storageAccount.listKeys().keys[0].value
+    additionalVolumesAndMounts: additionalVolumesAndMounts
   }
-}]
+}

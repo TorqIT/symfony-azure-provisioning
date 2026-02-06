@@ -84,7 +84,7 @@ module containerAppsEnvironment 'environment/container-apps-environment.bicep' =
     virtualNetworkSubnetName: virtualNetworkSubnetName
     logAnalyticsCustomerId: logAnalyticsWorkspace.properties.customerId
     logAnalyticsSharedKey: logAnalyticsWorkspace.listKeys().primarySharedKey
-
+    storageAccountName: storageAccountName
     additionalVolumesAndMounts: additionalVolumesAndMounts
   }
 }
