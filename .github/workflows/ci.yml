@@ -1,4 +1,4 @@
-name: Deploy changes to Azure and test
+name: CI
 
 on:
   pull_request:
@@ -10,6 +10,7 @@ concurrency:
 
 jobs:
   deploy-azure-changes:
+    name: Deploy changes to test Azure environment
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
