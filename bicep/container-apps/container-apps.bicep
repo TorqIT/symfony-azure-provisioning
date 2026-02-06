@@ -55,17 +55,10 @@ param supervisordContainerAppImageName string
 param supervisordContainerAppCpuCores string
 param supervisordContainerAppMemory string
 
-param redisContainerAppName string
-param redisContainerAppCpuCores string
-param redisContainerAppMemory string
-param redisContainerAppMaxMemorySetting string
-
 param appDebug string
 param appEnv string
 param databaseName string
 param databaseUser string
-param redisDb string
-param redisSessionDb string
 param additionalEnvVars array
 param additionalSecrets array
 param additionalVolumesAndMounts array
@@ -154,9 +147,6 @@ module environmentVariables 'container-apps-env-variables.bicep' = {
     databaseName: databaseName
     databaseUser: databaseUser
     databasePasswordSecretRefName: databasePasswordSecretRefName
-    redisHost: redisContainerAppName
-    redisDb: redisDb
-    redisSessionDb: redisSessionDb
     storageAccountName: storageAccountName
     storageAccountContainerName: storageAccountContainerName
     storageAccountKeySecretRefName: storageAccountKeySecretRefName
@@ -241,19 +231,6 @@ module supervisordContainerApp 'container-app-supervisord.bicep' = if (provision
     storageAccountKeySecret: storageAccountKeySecret
     additionalSecrets: additionalSecretsModule.outputs.secrets
     additionalVolumesAndMounts: additionalVolumesAndMounts
-  }
-}
-
-module redisContainerApp 'container-app-redis.bicep' = {
-  name: 'redis-container-app'
-  dependsOn: [containerAppsEnvironment]
-  params: {
-    location: location
-    containerAppsEnvironmentName: containerAppsEnvironmentName
-    containerAppName: redisContainerAppName
-    cpuCores: redisContainerAppCpuCores
-    memory: redisContainerAppMemory
-    maxMemorySetting: redisContainerAppMaxMemorySetting
   }
 }
 

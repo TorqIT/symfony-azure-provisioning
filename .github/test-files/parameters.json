@@ -110,20 +110,11 @@
     "supervisordContainerAppImageName": {
       "value": "supervisord"
     },
-    "redisContainerAppName": {
-      "value": "symfony-azure-redis-test"
-    },
     "appDebug": {
       "value": "1"
     },
     "appEnv": {
       "value": "test_env"
-    },
-    "redisDb": {
-      "value": "12"
-    },
-    "redisSessionDb": {
-      "value": "14"
     },
     "additionalEnvVars": {
       "value": []

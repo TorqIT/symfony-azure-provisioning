@@ -285,17 +285,10 @@ param supervisordContainerAppName string
 param supervisordContainerAppImageName string = 'supervisord'
 param supervisordContainerAppCpuCores string = '1'
 param supervisordContainerAppMemory string = '2Gi'
-// Redis Container App
-param redisContainerAppName string
-param redisContainerAppCpuCores string = '0.25'
-param redisContainerAppMemory string = '0.5Gi'
-param redisContainerAppMaxMemorySetting string = '256mb'
 // Symfony runtime variables
 @allowed(['0', '1'])
 param appDebug string
 param appEnv string
-param redisDb string
-param redisSessionDb string
 // Environment variables and secrets
 param additionalEnvVars array = []
 param additionalSecrets array = []
@@ -338,12 +331,6 @@ module containerApps 'container-apps/container-apps.bicep' = {
     phpContainerAppMinReplicas: phpContainerAppMinReplicas
     phpContainerAppMaxReplicas: phpContainerAppMaxReplicas
     phpContainerAppIpSecurityRestrictions: phpContainerAppIpSecurityRestrictions
-    redisContainerAppName: redisContainerAppName
-    redisDb: redisDb
-    redisSessionDb: redisSessionDb
-    redisContainerAppCpuCores: redisContainerAppCpuCores
-    redisContainerAppMemory: redisContainerAppMemory
-    redisContainerAppMaxMemorySetting: redisContainerAppMaxMemorySetting
     storageAccountContainerName: storageAccountContainerName
     storageAccountName: storageAccountName
     provisionSupervisordContainerApp: provisionSupervisordContainerApp

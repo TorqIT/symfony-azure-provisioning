@@ -8,9 +8,6 @@ param databaseServerVersion string
 param databaseName string
 param databaseUser string
 param databasePasswordSecretRefName string
-param redisDb string
-param redisHost string
-param redisSessionDb string
 param additionalEnvVars array
 
 var defaultEnvVars = [
@@ -53,18 +50,6 @@ var defaultEnvVars = [
   {
     name: 'DATABASE_SERVER_VERSION'
     value: databaseServerVersion
-  }
-  {
-    name: 'REDIS_DB'
-    value: redisDb
-  }
-  {
-    name: 'REDIS_HOST'
-    value: redisHost
-  }
-  {
-    name: 'REDIS_SESSION_DB'
-    value: redisSessionDb
   }
 ]
 
