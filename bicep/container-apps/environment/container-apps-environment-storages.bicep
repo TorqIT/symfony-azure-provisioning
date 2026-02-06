@@ -14,18 +14,19 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2025-01-01' existing 
 var defaultVolumesAndMounts = [
   {
     mountName: 'logs'
-    shareName: 'logs'
+    fileShareName: 'logs'
     accountName: storageAccountName
     accountKey: storageAccountKey
     accessMode: 'ReadWrite'
+    mountAccessMode: 'ReadWrite'
     storageType: 'AzureFile'
   }
   {
     mountName: 'uploads'
-    shareName: 'uploads'
+    fileShareName: 'uploads'
     accountName: storageAccountName
     accountKey: storageAccountKey
-    accessMode: 'ReadWrite'
+    mountAccessMode: 'ReadWrite'
     storageType: 'AzureFile'
   }
 ]
