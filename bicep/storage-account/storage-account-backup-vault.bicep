@@ -84,7 +84,7 @@ resource roleDefinition 'Microsoft.Authorization/roleDefinitions@2022-05-01-prev
 }
 resource backupVaultRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: storageAccount
-  name: guid(resourceGroup().id, roleDefinition.id)
+  name: guid(backupVault.id, storageAccount.id, roleDefinition.id)
   properties: {
     roleDefinitionId: roleDefinition.id
     principalId: backupVault.identity.principalId
