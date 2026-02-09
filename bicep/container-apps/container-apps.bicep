@@ -126,7 +126,7 @@ var databasePasswordSecret = {
   keyVaultUrl: databasePasswordSecretInKeyVault.properties.secretUri
   identity: managedIdentity.id
 }
-var appSecretRefName = 'app-password'
+var appSecretRefName = 'app-secret'
 resource appSecretInKeyVault 'Microsoft.KeyVault/vaults/secrets@2023-07-01' existing = {
   parent: keyVault
   name: appSecretNameInKeyVault
