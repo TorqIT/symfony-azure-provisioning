@@ -1,5 +1,6 @@
 param appDebug string
 param appEnv string
+param appSecretRefName string
 param storageAccountName string
 param storageAccountContainerName string
 param storageAccountKeySecretRefName string
@@ -18,6 +19,10 @@ var defaultEnvVars = [
   {
     name: 'APP_ENV'
     value: appEnv
+  }
+  {
+    name: 'APP_SECRET'
+    secretRef: appSecretRefName
   }
   {
     name: 'AZURE_STORAGE_ACCOUNT_CONTAINER'

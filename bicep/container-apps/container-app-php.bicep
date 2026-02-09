@@ -19,6 +19,8 @@ param isExternal bool
 param databasePasswordSecret object
 @secure()
 param storageAccountKeySecret object
+@secure()
+param appSecret object
 param additionalSecrets array
 param additionalVolumesAndMounts array
 
@@ -42,7 +44,7 @@ resource certificates 'Microsoft.App/managedEnvironments/managedCertificates@202
 }]
 
 // Secrets
-var defaultSecrets = [databasePasswordSecret, storageAccountKeySecret]
+var defaultSecrets = [databasePasswordSecret, storageAccountKeySecret, appSecret]
 var secrets = concat(defaultSecrets, additionalSecrets)
 
 // Volumes

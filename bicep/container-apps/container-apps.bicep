@@ -57,6 +57,7 @@ param supervisordContainerAppMemory string
 
 param appDebug string
 param appEnv string
+param appSecretNameInKeyVault string
 param databaseName string
 param databaseUser string
 param additionalEnvVars array
@@ -107,7 +108,6 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
   name: keyVaultName
 }
 // Set up common secrets for the init, PHP and supervisord Container Apps 
-var databasePasswordSecretRefName = 'database-password'
 var storageAccountKeySecretRefName = 'storage-account-key'
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
   name: storageAccountName
@@ -116,6 +116,7 @@ var storageAccountKeySecret = {
   name: 'storage-account-key'
   value: storageAccount.listKeys().keys[0].value  
 }
+var databasePasswordSecretRefName = 'database-password'
 resource databasePasswordSecretInKeyVault 'Microsoft.KeyVault/vaults/secrets@2023-07-01' existing = {
   parent: keyVault
   name: databasePasswordSecretNameInKeyVault
@@ -123,6 +124,16 @@ resource databasePasswordSecretInKeyVault 'Microsoft.KeyVault/vaults/secrets@202
 var databasePasswordSecret = {
   name: databasePasswordSecretRefName
   keyVaultUrl: databasePasswordSecretInKeyVault.properties.secretUri
+  identity: managedIdentity.id
+}
+var appSecretRefName = 'app-secret'
+resource appSecretInKeyVault 'Microsoft.KeyVault/vaults/secrets@2023-07-01' existing = {
+  parent: keyVault
+  name: appSecretNameInKeyVault
+}
+var appSecret = {
+  name: appSecretRefName
+  keyVaultUrl: appSecretInKeyVault.properties.secretUri
   identity: managedIdentity.id
 }
 // Optional additional secrets, assumed to exist in Key Vault
@@ -150,6 +161,7 @@ module environmentVariables 'container-apps-env-variables.bicep' = {
     storageAccountName: storageAccountName
     storageAccountContainerName: storageAccountContainerName
     storageAccountKeySecretRefName: storageAccountKeySecretRefName
+    appSecretRefName: appSecretRefName
     additionalEnvVars: concat(additionalEnvVars, additionalSecretsModule.outputs.envVars)
   }
 }
@@ -200,6 +212,7 @@ module phpContainerApp 'container-app-php.bicep' = {
     managedIdentityId: managedIdentity.id
     databasePasswordSecret: databasePasswordSecret
     storageAccountKeySecret: storageAccountKeySecret
+    appSecret: appSecret
     additionalSecrets: additionalSecretsModule.outputs.secrets
     additionalVolumesAndMounts: additionalVolumesAndMounts
 
@@ -229,6 +242,7 @@ module supervisordContainerApp 'container-app-supervisord.bicep' = if (provision
     managedIdentityId: managedIdentity.id
     databasePasswordSecret: databasePasswordSecret
     storageAccountKeySecret: storageAccountKeySecret
+    appSecret: appSecret
     additionalSecrets: additionalSecretsModule.outputs.secrets
     additionalVolumesAndMounts: additionalVolumesAndMounts
   }

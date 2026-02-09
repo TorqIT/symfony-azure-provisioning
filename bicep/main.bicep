@@ -289,6 +289,7 @@ param supervisordContainerAppMemory string = '2Gi'
 @allowed(['0', '1'])
 param appDebug string
 param appEnv string
+param appSecretNameInKeyVault string = 'app-secret'
 // Environment variables and secrets
 param additionalEnvVars array = []
 param additionalSecrets array = []
@@ -305,6 +306,7 @@ module containerApps 'container-apps/container-apps.bicep' = {
     additionalVolumesAndMounts: additionalVolumesAndMounts
     appDebug: appDebug
     appEnv: appEnv
+    appSecretNameInKeyVault: appSecretNameInKeyVault
     containerAppsEnvironmentName: containerAppsEnvironmentName
     containerAppsEnvironmentUseWorkloadProfiles: containerAppsEnvironmentUseWorkloadProfiles
     logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
