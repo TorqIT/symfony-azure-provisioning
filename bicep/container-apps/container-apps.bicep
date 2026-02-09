@@ -250,7 +250,7 @@ module supervisordContainerApp 'container-app-supervisord.bicep' = if (provision
 }
 
 // Optional metric alerts
-module phpContainerAppAlerts './alerts/container-app-alerts.bicep' = {
+module phpContainerAppAlerts './alerts/container-app-alerts.bicep' = if (provisionMetricAlerts) {
   name: '${phpContainerAppName}-alerts'
   dependsOn: [phpContainerApp]
   params: {
@@ -259,7 +259,7 @@ module phpContainerAppAlerts './alerts/container-app-alerts.bicep' = {
     criticalMetricAlertsActionGroupName: criticalMetricAlertsActionGroupName
   }
 }
-module supervisordContainerAppAlerts './alerts/container-app-alerts.bicep' = if (provisionSupervisordContainerApp) {
+module supervisordContainerAppAlerts './alerts/container-app-alerts.bicep' = if (provisionMetricAlerts && provisionSupervisordContainerApp) {
   name: '${supervisordContainerAppName}-alerts'
   dependsOn: [supervisordContainerApp]
   params: {
